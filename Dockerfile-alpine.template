@@ -1,0 +1,11 @@
+FROM openjdk:PLACEHOLDER
+
+ENV APP_VERSION PLACEHOLDER
+
+RUN apk add --no-cache \
+    bash
+
+COPY docker-entrypoint.sh /usr/local/bin/
+ENTRYPOINT ["docker-entrypoint.sh"]
+
+
