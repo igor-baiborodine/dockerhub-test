@@ -9,9 +9,8 @@ versions=( "${versions[@]%/}" )
 
 travisEnv=
 for version in "${versions[@]}"; do
-    majorVersion="${version%%.*}"
-	releaseVersion="${version%%/*}"
-    echo "majorVersion:$majorVersion, releaseVersion:$releaseVersion"
+    releaseVersion="${version%%/*}"
+    echo "releaseVersion:$releaseVersion"
 
     variant="$(basename "$version")"
     echo "variant:$variant"
@@ -42,11 +41,11 @@ for version in "${versions[@]}"; do
         -e 's/^(ENV APP_VERSION) .*/\1 '"$releaseVersion"'/' \
         -e 's/^(FROM) .*/\1 '"$baseImage"'/' \
         "Dockerfile${subVariant:+-$subVariant}.template" \
-        > "$majorVersion/$variant/Dockerfile"
+        > "$releaseVersion/$variant/Dockerfile"
 
-    cp -a docker-entrypoint.sh "$majorVersion/$variant/"
+    cp -a docker-entrypoint.sh "$releaseVersion/$variant/"
 
-    travisEnv='\n  - '"VERSION=$majorVersion VARIANT=$variant$travisEnv"
+    travisEnv='\n  - '"VERSION=$releaseVersion VARIANT=$variant$travisEnv"
 done
 
 travis="$(awk -v 'RS=\n\n' '$1 == "env:" { $0 = "env:'"$travisEnv"'" } { printf "%s%s", $0, RS }' .travis.yml)"
