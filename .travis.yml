@@ -19,7 +19,7 @@ script:
       set -Eeuo pipefail
       set -x
       docker build --build-arg COMMIT_ID=$TRAVIS_COMMIT -t "$image" .
-#      ~/official-images/test/run.sh "$image"
+      ~/official-images/test/run.sh "$image"
       docker push ibaiborodine/"$image"
     )
 
