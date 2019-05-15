@@ -5,6 +5,7 @@ env:
   - VERSION=7.1.2-ga3 VARIANT=jdk8-alpine
   
 install:
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
   - git clone https://github.com/docker-library/official-images.git ~/official-images  
 
 before_script:
@@ -17,8 +18,9 @@ script:
     (
       set -Eeuo pipefail
       set -x
-      docker build -t "$image" .
-      ~/official-images/test/run.sh "$image"
+      docker build --build-arg COMMIT_ID=$TRAVIS_COMMIT -t "$image" .
+#      ~/official-images/test/run.sh "$image"
+      docker push ibaiborodine/"$image"
     )
 
 after_script:
