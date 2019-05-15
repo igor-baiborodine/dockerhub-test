@@ -3,9 +3,6 @@ services: docker
 
 env:
   - VERSION=7.1.2-ga3 VARIANT=jdk8-alpine
-  
-install:
-  - git clone https://github.com/docker-library/official-images.git ~/official-images
 
 before_script:
   - env | sort
@@ -23,4 +20,3 @@ script:
 
 after_script:
   - docker images
-
