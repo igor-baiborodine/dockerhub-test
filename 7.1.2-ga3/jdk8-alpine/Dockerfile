@@ -8,4 +8,4 @@ RUN apk add --no-cache \
 COPY docker-entrypoint.sh /usr/local/bin/
 ENTRYPOINT ["docker-entrypoint.sh"]
 
-
+CMD ["bash", "-c", "echo APP_VERSION:$APP_VERSION"]
