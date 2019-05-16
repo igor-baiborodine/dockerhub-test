@@ -20,7 +20,7 @@ script:
     (
       set -Eeuo pipefail
       set -x
-      docker build --build-arg COMMIT_ID="$TRAVIS_COMMIT" -t "$image" .
+      docker build --build-arg GIT_COMMIT="$TRAVIS_COMMIT" -t "$image" .
       ~/official-images/test/run.sh "$image"
       docker push "$image"
     )
