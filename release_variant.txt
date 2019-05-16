@@ -1,1 +1,1 @@
-7.1.2-ga3/jdk8-alpine 7.1.2-ga3/jdk8-slim
+7.1.2-ga3/jdk8-alpine 7.1.2-ga3/jdk8-slim 7.1.2-ga3/jdk11-slim
