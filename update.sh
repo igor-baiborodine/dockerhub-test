@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 cd "$(dirname "$(readlink -f "$BASH_SOURCE")")"
 
 versions=( "$@" )
