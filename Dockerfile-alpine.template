@@ -1,7 +1,5 @@
 FROM openjdk:PLACEHOLDER
 
-ARG GIT_COMMIT
-
 ENV APP_VERSION PLACEHOLDER
 
 RUN apk add --no-cache \
@@ -9,7 +7,5 @@ RUN apk add --no-cache \
 
 COPY docker-entrypoint.sh /usr/local/bin/
 ENTRYPOINT ["docker-entrypoint.sh"]
-
-LABEL git_commit=$GIT_COMMIT
 
 CMD ["bash", "-c", "echo APP_VERSION:$APP_VERSION"]

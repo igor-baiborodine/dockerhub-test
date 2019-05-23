@@ -1,22 +1,20 @@
 language: bash
 services: docker
 
+branches:
+  only:
+    - dev
+
 env:
-  - VERSION=7.0.6-ga7 VARIANT=jdk11-slim
-  - VERSION=7.0.6-ga7 VARIANT=jdk8-slim
   - VERSION=7.0.6-ga7 VARIANT=jdk8-alpine
-  - VERSION=7.1.2-ga3 VARIANT=jdk11-slim
-  - VERSION=7.1.2-ga3 VARIANT=jdk8-slim
-  - VERSION=7.1.2-ga3 VARIANT=jdk8-alpine
 
 install:
-  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
   - git clone https://github.com/docker-library/official-images.git ~/official-images
 
 before_script:
   - env | sort
   - cd "$VERSION/$VARIANT"
-  - image="$DOCKER_USERNAME/dockerhub-test:$VERSION-$VARIANT"
+  - image="ibaiborodine/dockerhub-test:$VERSION-$VARIANT"
 
 script:
   - |
@@ -25,7 +23,6 @@ script:
       set -x
       docker build --build-arg GIT_COMMIT="$TRAVIS_COMMIT" -t "$image" .
       ~/official-images/test/run.sh "$image"
-      docker push "$image"
     )
 
 after_script:
