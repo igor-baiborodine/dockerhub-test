@@ -6,6 +6,7 @@ branches:
     - dev
 
 env:
+  - VERSION=7.1.0-ga1 VARIANT=jdk8-slim
   - VERSION=7.1.0-ga1 VARIANT=jdk8-alpine
 
 install:
