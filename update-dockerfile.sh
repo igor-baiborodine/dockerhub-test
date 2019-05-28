@@ -1,27 +1,25 @@
 #!/usr/bin/env bash
 
 add_dockerfile() {
-  local versions=( "$1" )
-  if [[ ${#versions[@]} -eq 0 ]]; then
-    versions=( */ )
-  fi
-  versions=( "${versions[@]%/}" )
+  echo "add_dockerfile(): begin"
+  local versions="$(cat ./supported-tags.txt)"
+  echo "versions:${versions}"
 
   local travis_env=
 
-  for version in "${versions[@]}"; do
+  for version in ${versions}; do
     local release_version="${version%%/*}"
     local variant="$(basename "$version")"
     local java_variant="${variant%%-*}"
 
     if [[ "$java_variant" != jdk* ]]; then
-      echo >&2 "not sure what to do with $version/$java_variant re: base_image; skipping"
+      echo "not sure what to do with $version/$java_variant re: base_image; skipping"
       continue
     fi
 
     local sub_variant="${variant#$java_variant-}"
 
-    echo "Version {
+    echo "version {
       release_version: $release_version
       variant: $variant
       java_variant: $java_variant
@@ -29,7 +27,7 @@ add_dockerfile() {
     }"
 
     if [[ ! -d "$release_version/$variant" ]]; then
-      echo "Adding Dockerfile for $release_version/$variant ..."
+      echo "adding Dockerfile for $release_version/$variant"
       mkdir -p "$release_version/$variant"
 
       local base_image=
@@ -39,7 +37,7 @@ add_dockerfile() {
           echo "base_image:$base_image"
           ;;
         *)
-          echo >&2 "not sure what to do with $version/$sub_variant re: base_image; skipping"
+          echo "not sure what to do with $version/$sub_variant re: base_image; skipping"
           continue
           ;;
       esac
@@ -54,19 +52,52 @@ add_dockerfile() {
     fi
 
     travis_env='\n  - '"VERSION=$release_version VARIANT=$variant$travis_env"
+    echo "travis_env:$travis_env"
   done
 
   local travis="$(awk -v 'RS=\n\n' '$1 == "env:" { $0 = "env:'"$travis_env"'" } { printf "%s%s", $0, RS }' .travis.yml)"
-  echo "$travis" > .travis.yml
+  echo "modifying .travis file"
+  awk -v content="$travis" 'BEGIN { printf "%s", content }' > .travis.yml
+  echo "add_dockerfile(): end"
 }
 
 remove_dockerfile() {
-  echo "Removing dockerfile files..."
-# ls -d */ | tr -d '/'
+  echo "remove_dockerfile(): begin"
+  local supported_tags="$(cat ./supported-tags.txt)"
+
+  for release_path in $(ls -d */); do
+    if [[ ${supported_tags} = *"$release_path"* ]]; then
+      echo "found in supported tags: release[${release_path::-1}]"
+      cd "$release_path"
+
+      for variant_path in $(ls -d */); do
+        local tag="$release_path${variant_path::-1}"
+
+        if [[ ${supported_tags} = *"$tag"* ]]; then
+          echo "found in supported tags: variant[$tag]"
+        else
+          echo "removing directory: variant[$tag]"
+          rm -rf "$variant_path"
+        fi
+      done
+
+      cd ..
+    else
+      echo "removing directory: release[$release_path]"
+      rm -rf "$release_path"
+    fi
+  done
+  echo "remove_dockerfile(): end"
 }
 
 main() {
-  add_dockerfile "$1"
+  if [[ "$1" = 'debug' ]]; then
+    exec 2>&1 # dump to console
+  else
+    exec 1> /dev/null 2>&1 # be quite
+  fi
+
+  add_dockerfile
   remove_dockerfile
 }
 
