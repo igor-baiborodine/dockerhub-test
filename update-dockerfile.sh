@@ -91,6 +91,8 @@ remove_dockerfile() {
 }
 
 main() {
+  set -e
+  
   # dump to console
   # exec 2>&1
 
