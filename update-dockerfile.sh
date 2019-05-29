@@ -3,7 +3,7 @@
 add_dockerfile() {
   echo "add_dockerfile(): begin"
   local versions="$(cat ./supported-tags.txt)"
-  echo "versions:${versions}"
+  echo "Versions: ${versions}"
 
   local travis_env=
 
@@ -13,13 +13,13 @@ add_dockerfile() {
     local java_variant="${variant%%-*}"
 
     if [[ "$java_variant" != jdk* ]]; then
-      echo "not sure what to do with $version/$java_variant re: base_image; skipping"
+      echo "Not sure what to do with $version/$java_variant re: base_image; skipping"
       continue
     fi
 
     local sub_variant="${variant#$java_variant-}"
 
-    echo "version {
+    echo "Version {
       release_version: $release_version
       variant: $variant
       java_variant: $java_variant
@@ -27,7 +27,7 @@ add_dockerfile() {
     }"
 
     if [[ ! -d "$release_version/$variant" ]]; then
-      echo "adding Dockerfile for $release_version/$variant"
+      echo "Adding Dockerfile for $release_version/$variant"
       mkdir -p "$release_version/$variant"
 
       local base_image=
@@ -37,7 +37,7 @@ add_dockerfile() {
           echo "base_image:$base_image"
           ;;
         *)
-          echo "not sure what to do with $version/$sub_variant re: base_image; skipping"
+          echo "Not sure what to do with $version/$sub_variant re: base_image; skipping"
           continue
           ;;
       esac
@@ -56,7 +56,7 @@ add_dockerfile() {
   done
 
   local travis="$(awk -v 'RS=\n\n' '$1 == "env:" { $0 = "env:'"$travis_env"'" } { printf "%s%s", $0, RS }' .travis.yml)"
-  echo "modifying .travis file"
+  echo "Modifying .travis file"
   awk -v content="$travis" 'BEGIN { printf "%s", content }' > .travis.yml
   echo "add_dockerfile(): end"
 }
@@ -67,35 +67,35 @@ remove_dockerfile() {
 
   for release_path in $(ls -d */); do
     if [[ ${supported_tags} = *"$release_path"* ]]; then
-      echo "found in supported tags: release[${release_path::-1}]"
+      echo "Found in supported tags: release[${release_path::-1}]"
       cd "$release_path"
 
       for variant_path in $(ls -d */); do
         local tag="$release_path${variant_path::-1}"
 
         if [[ ${supported_tags} = *"$tag"* ]]; then
-          echo "found in supported tags: variant[$tag]"
+          echo "Found in supported tags: variant[$tag]"
         else
-          echo "removing directory: variant[$tag]"
+          echo "Removing directory: variant[$tag]"
           rm -rf "$variant_path"
         fi
       done
 
       cd ..
     else
-      echo "removing directory: release[$release_path]"
+      echo "Removing directory: release[$release_path]"
       rm -rf "$release_path"
     fi
   done
-  echo "remove_dockerfile(): end"
+  echo "Remove_dockerfile(): end"
 }
 
 main() {
-  if [[ "$1" = 'debug' ]]; then
-    exec 2>&1 # dump to console
-  else
-    exec 1> /dev/null 2>&1 # be quite
-  fi
+  # dump to console
+  # exec 2>&1
+
+  # be quite
+  exec 1> /dev/null 2>&1
 
   add_dockerfile
   remove_dockerfile

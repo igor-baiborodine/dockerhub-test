@@ -1,6 +1,7 @@
 ## update-dockerfile.sh
 
 ### Assumptions
+- update-dockerfile.sh is executed in dev branch
 - Max number of supported releases for each major version: 1
 - Available variants for each supported release: alpine, slim
 - Available LTS JDK versions for each variant: 8 (alpine/slim), 11 (slim)
