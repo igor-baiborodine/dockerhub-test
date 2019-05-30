@@ -6,15 +6,17 @@ branches:
     - dev
 
 env:
+  - VERSION=7.1.2-ga8 VARIANT=jdk8-alpine
 
 install:
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
   - git clone https://github.com/docker-library/official-images.git ~/official-images
 
 before_script:
   - env | sort
   - cd "$VERSION/$VARIANT"
-  - image_version="ibaiborodine/dockerhub-test:$VERSION-$VARIANT"
-  - image_hash="ibaiborodine/dockerhub-test:$TRAVIS_COMMIT"
+  - image_version="$DOCKER_USERNAME/dockerhub-test:$VERSION-$VARIANT"
+  - image_hash="$DOCKER_USERNAME/dockerhub-test:$TRAVIS_COMMIT"
 
 script:
   - |
@@ -25,8 +27,7 @@ script:
       ~/official-images/test/run.sh "$image_version"
       docker tag "$image_version" "$image_hash"
       docker push "$image_version"
-#      docker push "$image_hash"
     )
 
 after_script:
-  - docker images
+  - docker images
