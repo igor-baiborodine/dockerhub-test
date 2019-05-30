@@ -1,6 +1,6 @@
 FROM openjdk:8-jdk-alpine
 
-ENV APP_VERSION 7.1.2-ga8
+ENV APP_VERSION 7.3.5-ga9
 
 RUN apk add --no-cache \
     bash
