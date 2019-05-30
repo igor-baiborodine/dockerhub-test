@@ -6,8 +6,6 @@ branches:
     - dev
 
 env:
-  - VERSION=7.0.6-ga7 VARIANT=jdk8-slim
-  - VERSION=7.0.6-ga7 VARIANT=jdk8-alpine
 
 install:
   - git clone https://github.com/docker-library/official-images.git ~/official-images
@@ -15,16 +13,20 @@ install:
 before_script:
   - env | sort
   - cd "$VERSION/$VARIANT"
-  - image="ibaiborodine/dockerhub-test:$VERSION-$VARIANT"
+  - image_version="ibaiborodine/dockerhub-test:$VERSION-$VARIANT"
+  - image_hash="ibaiborodine/dockerhub-test:$TRAVIS_COMMIT"
 
 script:
   - |
     (
       set -Eeuo pipefail
       set -x
-      docker build -t "$image" .
-      ~/official-images/test/run.sh "$image"
+      docker build -t "$image_version" .
+      ~/official-images/test/run.sh "$image_version"
+      docker tag "$image_version" "$image_hash"
+      docker push "$image_version"
+#      docker push "$image_hash"
     )
 
 after_script:
-  - docker images
+  - docker images

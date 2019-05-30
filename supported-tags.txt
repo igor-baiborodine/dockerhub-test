@@ -1,3 +1,0 @@
-7.0.6-ga7/jdk8-alpine
-7.0.6-ga7/jdk8-slim
-

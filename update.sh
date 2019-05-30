@@ -2,7 +2,7 @@
 
 add_dockerfile() {
   echo "add_dockerfile(): begin"
-  local versions="$(cat ./supported-tags.txt)"
+  local versions="$(cat ./supported-tags.conf)"
   echo "Versions: ${versions}"
 
   local travis_env=
@@ -63,7 +63,7 @@ add_dockerfile() {
 
 remove_dockerfile() {
   echo "remove_dockerfile(): begin"
-  local supported_tags="$(cat ./supported-tags.txt)"
+  local supported_tags="$(cat ./supported-tags.conf)"
 
   for release_path in $(ls -d */); do
     if [[ ${supported_tags} = *"$release_path"* ]]; then
@@ -90,17 +90,27 @@ remove_dockerfile() {
   echo "Remove_dockerfile(): end"
 }
 
+commit_push() {
+  echo "commit_push(): begin"
+
+  git add .
+  git commit -m "Add new supported tag "
+
+  echo "commit_push(): end"
+}
+
 main() {
   set -e
   
   # dump to console
-  # exec 2>&1
+  exec 2>&1
 
   # be quite
-  exec 1> /dev/null 2>&1
+  # exec 1> /dev/null 2>&1
 
   add_dockerfile
   remove_dockerfile
+  commit_push
 }
 
 main "$@"
