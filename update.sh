@@ -54,13 +54,24 @@ main() {
   echo "Modifying .travis.yml"
   echo "$travis" > .travis.yml
 
-  if grep -q "$release_version" ./supported-tags; then
-    echo "Found in supported-tags: release[$release_version]"
-    echo "$supported_tag" >> ./supported-tags
+  if [[ -f ./supported-tags ]]; then
+    if grep -q "$release_version" ./supported-tags; then
+      echo "Found in supported-tags: release[$release_version]"
+      echo "$supported_tag" >> ./supported-tags
+    else
+      echo "Not found in supported-tags: release[$release_version]"
+      echo "$supported_tag" > ./supported-tags
+
+      for release_path in $(ls -d */); do
+        if [[ ${supported_tag} != "$release_path"* ]]; then
+          echo "Removing directory: release[$release_path]"
+          rm -rf "$release_path"
+        fi
+      done
+    fi
   else
-    echo "Not found in supported-tags: release[$release_version]"
+    echo "Creating supported-tags file"
     echo "$supported_tag" > ./supported-tags
-    rm -rf "$release_version"
   fi
 
   git add .
