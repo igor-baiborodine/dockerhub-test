@@ -6,7 +6,7 @@ branches:
     - dev
 
 env:
-  - VERSION=7.3.5-ga9 VARIANT=jdk8-alpine
+  - VERSION=7.1.4-ga5 VARIANT=jdk8-alpine
 
 install:
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
@@ -15,19 +15,16 @@ install:
 before_script:
   - env | sort
   - cd "$VERSION/$VARIANT"
-  - image_version="$DOCKER_USERNAME/dockerhub-test:$VERSION-$VARIANT"
-  - image_hash="$DOCKER_USERNAME/dockerhub-test:$TRAVIS_COMMIT"
+  - image="$DOCKER_USERNAME/dockerhub-test:$VERSION-$VARIANT"
 
 script:
   - |
     (
       set -Eeuo pipefail
       set -x
-      docker build -t "$image_hash" .
-      ~/official-images/test/run.sh "$image_hash"
-      docker tag "$image_hash" "$image_version"
-      docker push "$image_version"
-      docker push "$image_hash"
+      docker build -t "$image" .
+      ~/official-images/test/run.sh "$image"
+      docker push "$image"
     )
 
 after_script:
