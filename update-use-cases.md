@@ -1,4 +1,4 @@
-## update-dockerfile.sh
+## Use cases for executing update.sh
 
 ### Assumptions
 - update.sh is executed on the dev branch
