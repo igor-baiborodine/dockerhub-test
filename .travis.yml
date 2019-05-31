@@ -6,6 +6,7 @@ branches:
     - dev
 
 env:
+  - VERSION=7.1.4-ga5 VARIANT=jdk8-alpine
 
 install:
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
