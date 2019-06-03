@@ -21,11 +21,6 @@ script:
       set -Eeuo pipefail
       set -x
       pwd
-      docker build -t "$image" "$VERSION/$VARIANT"
-      ~/official-images/test/run.sh "$image"
-      docker push "$image"
-      ./generate-readme.sh "$VERSION-$VARIANT" "$TRAVIS_COMMIT"
-      git status
     )
 
 after_script:
