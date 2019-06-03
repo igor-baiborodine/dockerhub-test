@@ -36,7 +36,7 @@ main() {
   cat ./template.md > ./README.md
   replace_field ./README.md 'TAGS' "$tags_content"
 
-  git add ./README.md
+  git add .
   git commit -m "Update README.md [skip travis]"
   git push
 }
