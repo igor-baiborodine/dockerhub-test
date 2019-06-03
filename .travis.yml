@@ -3,7 +3,7 @@ services: docker
 
 branches:
   only:
-    - dev
+    - master
 
 env:
   - VERSION=7.3.4-ga7  VARIANT=jdk8-slim
@@ -20,11 +20,10 @@ script:
     (
       set -Eeuo pipefail
       set -x
-      pwd
       docker build -t "$image" ./"$VERSION/$VARIANT"
       ~/official-images/test/run.sh "$image"
       docker push "$image"
-      ./generate-readme.sh "$VERSION-$VARIANT" "$TRAVIS_COMMIT"
+      ./generate-readme.sh "$VERSION/$VARIANT" "$TRAVIS_COMMIT"
       git status
     )
 
