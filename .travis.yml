@@ -6,7 +6,7 @@ branches:
     - dev
 
 env:
-  - VERSION=7.3.4-ga7 VARIANT=jdk8-alpine
+  - VERSION=7.3.4-ga7 VARIANT=jdk8-slim
 
 install:
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
@@ -25,6 +25,8 @@ script:
       docker build -t "$image" .
       ~/official-images/test/run.sh "$image"
       docker push "$image"
+      ./generate-readme.sh "$VERSION-$VARIANT" "$TRAVIS_COMMIT"
+      git status
     )
 
 after_script:
