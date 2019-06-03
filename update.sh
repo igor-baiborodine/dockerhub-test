@@ -75,7 +75,7 @@ main() {
   fi
 
   git add .
-  git commit -m "Add supported tag[$supported_tag]"
+  git commit -m "Add supported tag [$supported_tag]"
   git push
 
   echo "add_dockerfile(): end"
