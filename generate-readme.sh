@@ -29,12 +29,16 @@ main() {
     local commit="${t#*:}"
     echo "tag: $tag, commit: $commit"
 
-    tags_content='-  [`'"${tag/\//-}"'` (*'"${tag}/Dockerfile"'*)]('"${REPO_URL}/blob/${commit}/${tag}/Dockerfile"$')\n'
+    tags_content='-  [`'"${tag/\//-}"'` (*'"${tag}/Dockerfile"'*)]('"${REPO_URL}/blob/${commit}/${tag}/Dockerfile"$')\n'"$tags_content"
   done
   echo "tags_content: $tags_content"
 
   cat ./template.md > ./README.md
   replace_field ./README.md 'TAGS' "$tags_content"
+
+  git add ./README.md
+  git commit -m "Update README.md [skip travis]"
+  git push
 }
 
 main "$@"

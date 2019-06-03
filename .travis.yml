@@ -6,7 +6,7 @@ branches:
     - dev
 
 env:
-  - VERSION=7.2.7-ga6 VARIANT=jdk8-slim
+  - VERSION=7.2.7-ga6 VARIANT=jdk11-slim
 
 install:
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
