@@ -1,6 +1,9 @@
-FROM openjdk:8-jdk-slim
+FROM openjdk:8-jdk-alpine
 
-ENV APP_VERSION 7.3.4-ga7
+ENV APP_VERSION 7.4.8-ga8
+
+RUN apk add --no-cache \
+    bash
 
 COPY docker-entrypoint.sh /usr/local/bin/
 ENTRYPOINT ["docker-entrypoint.sh"]
