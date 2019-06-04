@@ -1,10 +1,6 @@
 language: bash
 services: docker
 
-branches:
-  only:
-    - master
-
 env:
   - VERSION=7.3.4-ga7 VARIANT=jdk11-slim
 
