@@ -3,7 +3,7 @@ services: docker
 
 env:
   matrix:
-    - VERSION=7.4.8-ga8 VARIANT=jdk11-slim
+    - VERSION=7.5.2-ga9 VARIANT=jdk8-alpine
   global:
     secure: RVImOAZk/RstSx9YU/wz+Og18nj8AsTIE/6Eh5xcKY6B7du6osvz8HEFdVGMQUKQJukpynb6TFyC85UfQva1FmZ6hqn062tJwoSnUFmAqeEA+0AtPYE3mclWySdrYdhsm7NznJLZYLUQo4ks6ED3wTLm3T9pBz3+Pc167Pn4G74wg+Q/BYwEVVSc0OZyhsQYtXm+SEFKAJJsYzh3QjPMp4c3L11tt8aEtEmbQBYXfrS+Nrav0LqEW3cLoixzfeT49k/AfbXK0x7qjerN+QCwlenpRG+YXa0bIBbDXu9aR+qEoeZMV2GeNdEs2AnGuqCcJ/etK+Xv/FmhrLbwyeqUlNIzBj+I/ildn8D1bAdE7iHTygRbaYsV/j2Ar2hOlvNmusBDYuScTAW7XQugMk7oK870Zfhzl7oUUv6yghqV+U1hoAUC0l7kJLDI8xP0WAnSnLzl+y5zsbDqM/hP1FQWEEm/BmvjAHwOTrhJIfILgjAANoHV3yWMNGJ/WOokVbnWGu4NydGNQlyTfi1HV6WWr2ogODEK914ygUq7LmhK09K6YtPCuwUehxF6u6iqh9JEqs6f631cN/q7oyxSscllk8HE0y+5Ifrf4pjyKXku0/9Op3gN2Ro3yzATeeS/VqKGKsWFOM/AB5XZ784whRnb7MS0sed7TcahAa7e43cNSXs=
 
@@ -28,4 +28,4 @@ script:
 
 after_success:
   - docker images
-  - .travis/update-remote.sh "dockerhub-test"
+  - ./push-remote.sh "dockerhub-test"

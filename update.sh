@@ -47,9 +47,9 @@ main() {
 
   cp -a docker-entrypoint.sh "$release_version/$variant/"
 
-  local travis="$(awk '/matrix:/{print;getline;$0="    - VERSION='"$release_version"' VARIANT='"$variant"'"}1' ./.travis/.travis.yml)"
+  local travis="$(awk '/matrix:/{print;getline;$0="    - VERSION='"$release_version"' VARIANT='"$variant"'"}1' ./.travis.yml)"
   echo "Modifying .travis.yml with new VERSION-VARIANT[$release_version-$variant]"
-  echo "$travis" > ./.travis/.travis.yml
+  echo "$travis" > .travis.yml
 
   if [[ -f ./supported-tags ]]; then
     if grep -q "$release_version" ./supported-tags; then
