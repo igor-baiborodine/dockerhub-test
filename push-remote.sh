@@ -3,11 +3,11 @@
 main() {
   git config --global user.email "travis@travis-ci.org"
   git config --global user.name "Travis CI"
-
+  pwd
   mkdir ~/temp
   git clone "https://github.com/igor-baiborodine/$REPO.git" ~/temp
 
-  ls -al ~
+  ls -al ~/temp
 
   cp "~/$REPO/README.md" "~/$REPO/supported-tags" "~/temp"
 
