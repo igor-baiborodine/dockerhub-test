@@ -9,9 +9,11 @@ main() {
 
   cd "~/$REPO"
   git add README.md supported-tags
+  pwd
+  cat README.md
   git status
   git commit -m "$TRAVIS_COMMIT_MESSAGE [skip travis]"
-  git push "https://${TRAVIS_GITHUB_TOKEN}@${REPO}" master > /dev/null 2>&1
+  git push "https://${TRAVIS_GITHUB_TOKEN}@${REPO}" master
 }
 
 main "$@"
