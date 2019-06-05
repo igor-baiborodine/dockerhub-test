@@ -3,15 +3,12 @@
 main() {
   git config --global user.email "travis@travis-ci.org"
   git config --global user.name "Travis CI"
-  pwd
+
   mkdir ~/temp
   git clone "https://github.com/igor-baiborodine/$REPO.git" ~/temp
+  cp "~/$REPO/README.md" "~/$REPO/supported-tags" ~/temp
 
-  ls -al ~/temp
-
-  cp "~/$REPO/README.md" "~/$REPO/supported-tags" "~/temp"
-
-  cd "~/temp"
+  cd ~/temp
   git add README.md supported-tags
   git status
   git commit -m "$TRAVIS_COMMIT_MESSAGE [skip travis]"
