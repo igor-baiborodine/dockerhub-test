@@ -1,7 +1,8 @@
 ## Use cases for executing update.sh
 
 ### Assumptions
-- update.sh is executed on the dev branch
+- update.sh is executed on the master branch
+- Max number of supported major versions: 1
 - Max number of supported releases for each major version: 1
 - Available variants for each supported release: alpine, slim
 - Available LTS JDK versions for each variant: 8 (alpine/slim), 11 (slim)
