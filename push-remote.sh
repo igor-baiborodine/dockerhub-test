@@ -7,6 +7,8 @@ main() {
   mkdir ~/temp
   git clone "https://github.com/igor-baiborodine/$REPO.git" ~/temp
 
+  ls -al ~
+
   cp "~/$REPO/README.md" "~/$REPO/supported-tags" "~/temp"
 
   cd "~/temp"
