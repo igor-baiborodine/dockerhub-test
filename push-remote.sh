@@ -6,9 +6,10 @@ main() {
 
   mkdir ~/temp
   git clone "https://github.com/igor-baiborodine/$REPO.git" ~/temp
-  cp "~/$REPO/README.md" "~/$REPO/supported-tags" "~/temp/$REPO"
 
-  cd "~/temp/$REPO"
+  cp "~/$REPO/README.md" "~/$REPO/supported-tags" "~/temp"
+
+  cd "~/temp"
   git add README.md supported-tags
   git status
   git commit -m "$TRAVIS_COMMIT_MESSAGE [skip travis]"
