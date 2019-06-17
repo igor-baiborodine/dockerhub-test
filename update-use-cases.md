@@ -17,7 +17,7 @@
 - changes committed and pushed to remote
 - Travis CI job triggered:
   - new image built with VERSION-VARIANT tag and pushed to Docker HUB
-  - VERSION/VARIANT updated with the corresponding Git commit 
+  - VERSION/VARIANT in supported-tags updated with the corresponding Git commit 
   - README.md generated with with the updated Supported Tags section
   - changes committed and pushed to remote  
 
@@ -32,7 +32,7 @@
 - Travis CI job triggered 
 - Travis CI job triggered:
   - new image built with VERSION-VARIANT tag and pushed to Docker HUB
-  - VERSION/VARIANT updated with the corresponding Git commit 
+  - VERSION/VARIANT  in supported-tags updated with the corresponding Git commit 
   - README.md generated with with the updated Supported Tags section
   - changes committed and pushed to remote  
 
@@ -48,6 +48,6 @@
 - Travis CI job triggered 
 - Travis CI job triggered:
   - new image built with VERSION-VARIANT tag and pushed to Docker HUB
-  - VERSION/VARIANT updated with the corresponding Git commit 
+  - VERSION/VARIANT  in supported-tags updated with the corresponding Git commit 
   - README.md generated with with the updated Supported Tags section
   - changes committed and pushed to remote  
