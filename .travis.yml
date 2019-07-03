@@ -12,7 +12,7 @@ install:
   - git clone https://github.com/docker-library/official-images.git ~/official-images
 
 before_script:
-  - image="$DOCKER_USERNAME/$REPO:$VERSION-$VARIANT"
+  - image="$DOCKER_USERNAME/dockerhub-test:$VERSION-$VARIANT"
 
 script:
   - |
