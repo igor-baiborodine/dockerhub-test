@@ -30,9 +30,9 @@ jobs:
         uses: tvdias/github-tagger@v0.0.1
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
-          tag: ${{ IMAGE_TAG }}
+          tag: ${{ github.event.inputs.releaseVersion }}
 
-      - name: Update README
+      - name: Echo tag commit hash
         run: |
           echo "$(git rev-list -n 1 "$IMAGE_TAG")"
 
