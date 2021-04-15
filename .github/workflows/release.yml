@@ -30,7 +30,11 @@ jobs:
         uses: tvdias/github-tagger@v0.0.1
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
-          tag: "$IMAGE_TAG"
+          tag: ${{ IMAGE_TAG }}
+
+      - name: Update README
+        run: |
+          echo "$(git rev-list -n 1 "$IMAGE_TAG")"
 
 #  docker_image:
 #    name: Docker Image
@@ -40,12 +44,18 @@ jobs:
 #    steps:
 #      - uses: actions/checkout@v2
 #        with:
-#          ref: ${{ github.event.inputs.releaseVersion }}
+#          ref: "$IMAGE_TAG"
+#
+#      - uses: actions/checkout@v2
+#        with:
+#          ref: docker-library/official-images
+#          path: official-images
 #
 #      - name: Build image
 #        run: |
-#          docker build . --file Dockerfile --tag $IMAGE_NAME:$IMAGE_TAG
-#          docker tag $IMAGE_NAME:$IMAGE_TAG $IMAGE_NAME:latest
+#          docker build . --file Dockerfile --tag $IMAGE_NAME:"${IMAGE_TAG//\//-}"
+#          ./official-images/test/run.sh $IMAGE_NAME:"${IMAGE_TAG//\//-}"
+#          docker tag $IMAGE_NAME:"${IMAGE_TAG//\//-}" $IMAGE_NAME:latest
 #
 #      - name: Log into registry
 #        run: echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
@@ -54,3 +64,8 @@ jobs:
 #        run: |
 #          docker push $IMAGE_NAME:$IMAGE_TAG
 #          docker push $IMAGE_NAME:latest
+#
+#      - name: Update README
+#        run: |
+#          ./script/generate-readme.sh -t "$IMAGE_TAG" -c "$(git rev-list -n 1 "$IMAGE_TAG")"
+#
