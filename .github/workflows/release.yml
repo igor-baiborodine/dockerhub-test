@@ -34,7 +34,7 @@ jobs:
 
       - name: Echo tag commit hash
         run: |
-          echo "$(git rev-list -n 1 "$IMAGE_TAG")"
+          echo "$(git rev-list -n 1 $IMAGE_TAG)"
 
 #  docker_image:
 #    name: Docker Image
