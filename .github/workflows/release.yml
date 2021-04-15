@@ -24,7 +24,7 @@ jobs:
 
       - name: Release Dockerfile
         run: |
-          ./script release-dockerfile.sh -t "$IMAGE_TAG"
+          ./script/release-dockerfile.sh -t "$IMAGE_TAG"
 
       - name: Tag release
         uses: tvdias/github-tagger@v0.0.1
