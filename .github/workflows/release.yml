@@ -27,10 +27,10 @@ jobs:
           ./script release-dockerfile.sh -t "$IMAGE_TAG"
 
       - name: Tag release
-          uses: tvdias/github-tagger@v0.0.1
-          with:
-            repo-token: ${{ secrets.GITHUB_TOKEN }}
-            tag: "$IMAGE_TAG"
+        uses: tvdias/github-tagger@v0.0.1
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          tag: "$IMAGE_TAG"
 
 #  docker_image:
 #    name: Docker Image
