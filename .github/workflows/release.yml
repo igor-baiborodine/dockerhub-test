@@ -35,7 +35,7 @@ jobs:
       - name: Echo tag commit hash
         run: |
           echo "$IMAGE_TAG"
-          git show --pretty=format:'%H' --quiet $IMAGE_TAG 
+          git show --pretty=format:'%H' --quiet $IMAGE_TAG
 
 #  docker_image:
 #    name: Docker Image
