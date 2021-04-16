@@ -50,6 +50,8 @@ jobs:
 
       - name: Check out docker-library/official-images
         run: |
+          pwd
+          printenv
           git clone https://github.com/docker-library/official-images.git ./official-images
 
       - name: Configure Git user
