@@ -43,14 +43,14 @@ jobs:
 #    needs: [ dockerfile ]
 
     steps:
-      - uses: actions/checkout@v2
+      - name: Check out project
+        uses: actions/checkout@v2
         with:
           ref: ${{ github.event.inputs.releaseVersion }}
 
-      - uses: actions/checkout@v2
-        with:
-          ref: docker-library/official-images
-          path: ./official-images
+      - name: Check out docker-library/official-images
+        run: |
+          git clone https://github.com/docker-library/official-images.git ./official-images
 
       - name: Configure Git user
         run: |
