@@ -6,7 +6,7 @@ source $(dirname "$0")/helper.sh
 main() {
   dry_run=false
   work_dir="."
-  github_repo_url='https://github.com/igor-baiborodine/docker-liferay-portal-ce'
+  github_repo_url='https://github.com/igor-baiborodine/dockerhub-test'
 
   while getopts "t:c:d" opt; do
     case $opt in
