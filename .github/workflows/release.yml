@@ -11,24 +11,24 @@ env:
   IMAGE_TAG:  ${{ github.event.inputs.releaseVersion }}
 
 jobs:
-#  dockerfile:
-#    name: Dockerfile
-#    runs-on: ubuntu-latest
-#    steps:
-#      - name: Configure Git user
-#        run: |
-#          git config --global user.email "actions@github.com"
-#          git config --global user.name "GitHub Actions"
-#
-#      - name: Check out project
-#        uses: actions/checkout@v2
-#
-#      - name: Release Dockerfile
-#        run: |
-#          ./script/release-dockerfile.sh -t "$IMAGE_TAG"
-#
-#  release_tag:
-#    name: Release Tag
+  dockerfile:
+    name: Dockerfile
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out project
+        uses: actions/checkout@v2
+
+      - name: Configure Git user
+        run: |
+          git config user.email "actions@github.com"
+          git config user.name "GitHub Actions"
+
+      - name: Release Dockerfile
+        run: |
+          ./script/release-dockerfile.sh -t "$IMAGE_TAG"
+
+#  docker_image:
+#    name: Docker Image
 #    runs-on: ubuntu-latest
 #    needs: [ dockerfile ]
 #
@@ -40,50 +40,30 @@ jobs:
 #
 #      - name: Check out project
 #        uses: actions/checkout@v2
-#
-#      - name: Create tag
-#        uses: tvdias/github-tagger@v0.0.1
 #        with:
-#          repo-token: ${{ secrets.GITHUB_TOKEN }}
-#          tag: ${{ github.event.inputs.releaseVersion }}
-
-  docker_image:
-    name: Docker Image
-    runs-on: ubuntu-latest
-#    needs: [ release_tag ]
-
-    steps:
-      - name: Configure Git user
-        run: |
-          git config --global user.email "actions@github.com"
-          git config --global user.name "GitHub Actions"
-
-      - name: Check out project
-        uses: actions/checkout@v2
-        with:
-          ref: ${{ github.event.inputs.releaseVersion }}
-
-      - name: Check out docker-library/official-images
-        run: |
-          git clone https://github.com/docker-library/official-images.git ../official-images
-
-      - name: Build image
-        run: |
-          ls -la ..
-          ls -la
-          docker build -t $IMAGE_NAME:"${IMAGE_TAG//\//-}" ./"$IMAGE_TAG"
-          ../official-images/test/run.sh $IMAGE_NAME:"${IMAGE_TAG//\//-}"
-          docker tag $IMAGE_NAME:"${IMAGE_TAG//\//-}" $IMAGE_NAME:latest
-
-      - name: Log into registry
-        run: |
-          echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
-
-      - name: Push image
-        run: |
-          docker push $IMAGE_NAME:"${IMAGE_TAG//\//-}"
-          docker push $IMAGE_NAME:latest
-
-      - name: Update README
-        run: |
-          ./script/generate-readme.sh -t "$IMAGE_TAG" -c "$(git show --pretty=format:'%H' --quiet $IMAGE_TAG)"
+#          ref: ${{ github.event.inputs.releaseVersion }}
+#
+#      - name: Check out docker-library/official-images
+#        run: |
+#          git clone https://github.com/docker-library/official-images.git ../official-images
+#
+#      - name: Build image
+#        run: |
+#          ls -la ..
+#          ls -la
+#          docker build -t $IMAGE_NAME:"${IMAGE_TAG//\//-}" ./"$IMAGE_TAG"
+#          ../official-images/test/run.sh $IMAGE_NAME:"${IMAGE_TAG//\//-}"
+#          docker tag $IMAGE_NAME:"${IMAGE_TAG//\//-}" $IMAGE_NAME:latest
+#
+#      - name: Log into registry
+#        run: |
+#          echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
+#
+#      - name: Push image
+#        run: |
+#          docker push $IMAGE_NAME:"${IMAGE_TAG//\//-}"
+#          docker push $IMAGE_NAME:latest
+#
+#      - name: Update README
+#        run: |
+#          ./script/generate-readme.sh -t "$IMAGE_TAG" -c "$(git show --pretty=format:'%H' --quiet $IMAGE_TAG)"
