@@ -126,7 +126,7 @@ main() {
   git add .
   git commit -m "Add new supported tag [$new_supported_tag]"
   git tag "$new_supported_tag"
-  git push
+  git push --follow-tags
 }
 
 main "$@"
