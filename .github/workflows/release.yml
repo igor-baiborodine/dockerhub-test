@@ -40,8 +40,6 @@ jobs:
 
       - name: Check out project
         uses: actions/checkout@v2
-        with:
-          ref: ${{ github.event.inputs.releaseVersion }}
 
       - name: Check out docker-library/official-images
         run: |
@@ -66,4 +64,5 @@ jobs:
 
       - name: Update README
         run: |
+          git tag -l
           ./script/generate-readme.sh -t "$IMAGE_TAG" -c "$(git show --pretty=format:'%H' --quiet $IMAGE_TAG)"
