@@ -9,7 +9,7 @@
 
 # Supported tags and respective `Dockerfile` links
 
--  [`7.3.6-ga7-jdk8-alpine` (*7.3.6-ga7/jdk8-alpine/Dockerfile*)](https://github.com/igor-baiborodine/dockerhub-test/blob/22f79279a70e254995978cead1de502afe22acca/7.3.6-ga7/jdk8-alpine/Dockerfile)
+-  [`7.3.6-ga7-jdk8-alpine` (*7.3.6-ga7/jdk8-alpine/Dockerfile*)](https://github.com/igor-baiborodine/dockerhub-test/blob/6c12332a51012512f08619a6fce16cdd7e7450e9/7.3.6-ga7/jdk8-alpine/Dockerfile)
 
 `Dockerfile` links for previously supported tags can be found [here](https://github.com/igor-baiborodine/docker-liferay-portal-ce/blob/master/readme/previously-supported-tags.md).
 
