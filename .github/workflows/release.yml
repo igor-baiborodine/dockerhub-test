@@ -27,29 +27,25 @@ jobs:
         run: |
           ./script/release-dockerfile.sh -t "$IMAGE_TAG"
 
+      - name: Check out docker-library/official-images
+        run: |
+          git clone https://github.com/docker-library/official-images.git ../official-images
+
+      - name: Build image
+        run: |
+          docker build -t $IMAGE_NAME:"${IMAGE_TAG//\//-}" ./"$IMAGE_TAG"
+          ../official-images/test/run.sh $IMAGE_NAME:"${IMAGE_TAG//\//-}"
+          docker tag $IMAGE_NAME:"${IMAGE_TAG//\//-}" $IMAGE_NAME:latest
+
+      - name: Log into registry
+        run: |
+          echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
+
+      - name: Push image
+        run: |
+          docker push $IMAGE_NAME:"${IMAGE_TAG//\//-}"
+          docker push $IMAGE_NAME:latest
+
       - name: Generate README
         run: |
           ./script/generate-readme.sh -t "$IMAGE_TAG" -c "$(git rev-parse HEAD)"
-
-#      - name: Check out docker-library/official-images
-#        run: |
-#          git clone https://github.com/docker-library/official-images.git ../official-images
-#
-#      - name: Build image
-#        run: |
-#          docker build -t $IMAGE_NAME:"${IMAGE_TAG//\//-}" ./"$IMAGE_TAG"
-#          ../official-images/test/run.sh $IMAGE_NAME:"${IMAGE_TAG//\//-}"
-#          docker tag $IMAGE_NAME:"${IMAGE_TAG//\//-}" $IMAGE_NAME:latest
-#
-#      - name: Log into registry
-#        run: |
-#          echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
-#
-#      - name: Push image
-#        run: |
-#          docker push $IMAGE_NAME:"${IMAGE_TAG//\//-}"
-#          docker push $IMAGE_NAME:latest
-#
-#      - name: Generate README
-#        run: |
-#          ./script/generate-readme.sh -t "$IMAGE_TAG" -c "$(git show --pretty=format:'%H' --quiet $IMAGE_TAG)"
