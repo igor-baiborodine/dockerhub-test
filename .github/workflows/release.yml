@@ -29,8 +29,7 @@ jobs:
 
       - name: Generate README
         run: |
-          git tag -l
-          ./script/generate-readme.sh -t "$IMAGE_TAG" -c "$(git show --pretty=format:'%H' --quiet $IMAGE_TAG)"
+          ./script/generate-readme.sh -t "$IMAGE_TAG" -c "$(git rev-parse HEAD)"
 
 #      - name: Check out docker-library/official-images
 #        run: |
